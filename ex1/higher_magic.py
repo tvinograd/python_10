@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
+from typing import Any
+
 
 def spell_combiner(spell1: callable, spell2: callable) -> callable:
-    def combiner(*args):
+    def combiner(*args: Any) -> tuple:
         return (spell1(*args), spell2(*args))
     return combiner
 
 
 def power_amplifier(base_spell: callable, multiplier: int) -> callable:
-    def amplifier(*args):
+    def amplifier(*args: Any) -> int:
         return base_spell(*args) * multiplier
     return amplifier
 
 
 def conditional_caster(condition: callable, spell: callable) -> callable:
-    def caster(*args):
+    def caster(*args: Any) -> str:
         if condition(*args):
             return spell(*args)
         return "Spell fizzled"
@@ -21,25 +23,25 @@ def conditional_caster(condition: callable, spell: callable) -> callable:
 
 
 def spell_sequence(spells: list[callable]) -> callable:
-    def sequence(*args):
+    def sequence(*args: Any) -> list:
         return [spell(*args) for spell in spells]
     return sequence
 
 
-def higher_magic():
+def higher_magic() -> None:
     test_values = [24, 23, 24]
     test_targets = ['Dragon', 'Goblin', 'Wizard', 'Knight']
 
-    def fireball(target):
+    def fireball(target: str) -> str:
         return f"Fireball hits {target}"
 
-    def heal(target):
+    def heal(target: str) -> str:
         return f"Heals {target}"
 
-    def damage(value):
+    def damage(value: int) -> int:
         return value
 
-    def is_good(target):
+    def is_good(target: str) -> bool:
         return target != 'Goblin'
 
     print("\nTesting spell combiner...")
