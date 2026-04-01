@@ -1,30 +1,30 @@
 #!/usr/bin/env python3
-from typing import Any
+from typing import Callable, Any
 
 
-def spell_combiner(spell1: callable, spell2: callable) -> callable:
-    def combiner(*args: Any) -> tuple:
-        return (spell1(*args), spell2(*args))
+def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
+    def combiner(*args, **kwargs) -> tuple[Any, Any]:
+        return (spell1(*args, **kwargs), spell2(*args, **kwargs))
     return combiner
 
 
-def power_amplifier(base_spell: callable, multiplier: int) -> callable:
-    def amplifier(*args: Any) -> int:
-        return base_spell(*args) * multiplier
+def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
+    def amplifier(*args, **kwargs) -> int:
+        return base_spell(*args, **kwargs) * multiplier
     return amplifier
 
 
-def conditional_caster(condition: callable, spell: callable) -> callable:
-    def caster(*args: Any) -> str:
-        if condition(*args):
-            return spell(*args)
+def conditional_caster(condition: Callable, spell: Callable) -> Callable:
+    def caster(*args, **kwargs) -> str:
+        if condition(*args, **kwargs):
+            return spell(*args, **kwargs)
         return "Spell fizzled"
     return caster
 
 
-def spell_sequence(spells: list[callable]) -> callable:
-    def sequence(*args: Any) -> list:
-        return [spell(*args) for spell in spells]
+def spell_sequence(spells: list[Callable]) -> Callable:
+    def sequence(*args, **kwargs) -> list[Any]:
+        return [spell(*args, **kwargs) for spell in spells]
     return sequence
 
 
