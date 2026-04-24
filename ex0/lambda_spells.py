@@ -23,7 +23,7 @@ def mage_stats(mages: list[dict]) -> dict:
     }
 
 
-def lambda_spells():
+def main() -> None:
     artifacts = [
         {'name': 'Light Prism', 'power': 60, 'type': 'accessory'},
         {'name': 'Water Chalice', 'power': 68, 'type': 'armor'},
@@ -40,8 +40,8 @@ def lambda_spells():
     spells = ['flash', 'tornado', 'blizzard', 'freeze']
 
     print("\nTesting artifact sorter...")
-    sorted = artifact_sorter(artifacts)
-    for artifact in sorted:
+    sorted_artifacts = artifact_sorter(artifacts)
+    for artifact in sorted_artifacts:
         print(f"{artifact['name']} ({artifact['power']} power)")
 
     print("\nTesting power filter (min_power = 55)...")
@@ -62,4 +62,4 @@ def lambda_spells():
 
 
 if __name__ == "__main__":
-    lambda_spells()
+    main()

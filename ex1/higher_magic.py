@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-from typing import Callable, Any
+
+from typing import Any
+from collections.abc import Callable
 
 
 def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
@@ -9,8 +11,8 @@ def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
 
 
 def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
-    def amplifier(*args, **kwargs) -> int:
-        return base_spell(*args, **kwargs) * multiplier
+    def amplifier(target: str, power: int) -> str:
+        return base_spell(target, power * multiplier)
     return amplifier
 
 
@@ -28,44 +30,40 @@ def spell_sequence(spells: list[Callable]) -> Callable:
     return sequence
 
 
-def higher_magic() -> None:
-    test_values = [24, 23, 24]
-    test_targets = ['Dragon', 'Goblin', 'Wizard', 'Knight']
+def main() -> None:
+    test_targets = ['Dragon', 'Goblin']
 
-    def fireball(target: str) -> str:
-        return f"Fireball hits {target}"
+    def fireball(target: str, power: int) -> str:
+        return f"Fireball hits {target} for {power} damage"
 
-    def heal(target: str) -> str:
-        return f"Heals {target}"
+    def heal(target: str, power: int) -> str:
+        return f"Heals {target} for {power} HP"
 
-    def damage(value: int) -> int:
-        return value
-
-    def is_good(target: str) -> bool:
+    def is_worthy(target: str, power: int) -> bool:
         return target != 'Goblin'
 
     print("\nTesting spell combiner...")
-    combiner = spell_combiner(fireball, heal)
-    result = combiner(test_targets[0])
+    combined = spell_combiner(fireball, heal)
+    result = combined(test_targets[0], 24)
     print(f"Combined spell result: {result[0]}, {result[1]}")
 
     print("\nTesting power amplifier...")
-    amplifier = power_amplifier(damage, 3)
-    original = test_values[0]
-    print(f"Original: {original}, Amplified: {amplifier(original)}")
+    mega_fireball = power_amplifier(fireball, 3)
+    print(f"Original: {fireball(test_targets[0], 24)}")
+    print(f"Amplified: {mega_fireball(test_targets[0], 24)}")
 
     print("\nTesting conditional caster...")
-    caster = conditional_caster(is_good, heal)
+    safe_heal = conditional_caster(is_worthy, heal)
     for target in test_targets[:2]:
-        print(f"{target}: {caster(target)}")
+        print(f"{target}: {safe_heal(target, 24)}")
 
     print("\nTesting spell sequence...")
     sequence = spell_sequence([fireball, heal])
-    results = sequence(test_targets[0])
+    results = sequence(test_targets[0], 24)
     for r in results:
         print(r)
     print()
 
 
 if __name__ == "__main__":
-    higher_magic()
+    main()

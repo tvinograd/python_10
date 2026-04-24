@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-from typing import Callable
+
+from collections.abc import Callable
 
 
 def mage_counter() -> Callable:
@@ -40,36 +41,32 @@ def memory_vault() -> dict[str, Callable]:
     return {'store': store, 'recall': recall}
 
 
-def scope_mysteries() -> None:
-    initial_powers = [50, 55, 73]
-    power_additions = [12, 16, 19, 12, 10]
-    enchantment_types = ['Earthen', 'Shocking', 'Windy']
-    items_to_enchant = ['Shield', 'Sword', 'Amulet', 'Armor']
-
+def main() -> None:
     print("Testing mage counter...")
-    counter = mage_counter()
-    for i in range(1, 4):
-        print(f"Call {i}: {counter()}")
+    counter_a = mage_counter()
+    counter_b = mage_counter()
+    print(f"counter_a call 1: {counter_a()}")
+    print(f"counter_a call 2: {counter_a()}")
+    print(f"counter_b call 1: {counter_b()}")
 
     print("\nTesting spell accumulator...")
-    accumulator = spell_accumulator(initial_powers[0])
-    print(f"Starting power: {initial_powers[0]}")
-    for addition in power_additions:
-        print(f"+ {addition} = {accumulator(addition)}")
+    accumulator = spell_accumulator(100)
+    print(f"Base 100, add 20: {accumulator(20)}")
+    print(f"Base 100, add 30: {accumulator(30)}")
 
     print("\nTesting enchantment factory...")
-    enchantment = enchantment_factory(enchantment_types[0])
-    for item in items_to_enchant:
-        print(f"{enchantment(item)}")
+    flaming = enchantment_factory("Flaming")
+    frozen = enchantment_factory("Frozen")
+    print(flaming("Sword"))
+    print(frozen("Shield"))
 
     print("\nTesting memory vault...")
     vault = memory_vault()
-    vault['store']('fireball', 'Fireball hits target')
-    vault['store']('heal', 'Heals target')
-    print(f"fireball: {vault['recall']('fireball')}")
-    print(f"heal: {vault['recall']('heal')}")
-    print(f"snowball: {vault['recall']('snowball')}")
+    vault['store']('secret', '42')
+    print("Store 'secret'= 42")
+    print(f"Recall 'secret': {vault['recall']('secret')}")
+    print(f"Recall 'unknown': {vault['recall']('unknown')}")
 
 
 if __name__ == "__main__":
-    scope_mysteries()
+    main()
