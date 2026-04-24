@@ -24,6 +24,7 @@ def mage_stats(mages: list[dict]) -> dict:
 
 
 def main() -> None:
+    # Lambda Sanctum Test Data
     artifacts = [
         {'name': 'Light Prism', 'power': 60, 'type': 'accessory'},
         {'name': 'Water Chalice', 'power': 68, 'type': 'armor'},

@@ -10,6 +10,7 @@ def mage_counter() -> Callable:
         nonlocal count
         count += 1
         return count
+
     return counter
 
 
@@ -20,12 +21,14 @@ def spell_accumulator(initial_power: int) -> Callable:
         nonlocal total
         total += amount
         return total
+
     return accumulator
 
 
 def enchantment_factory(enchantment_type: str) -> Callable:
     def enchantment(item: str) -> str:
         return f"{enchantment_type} {item}"
+
     return enchantment
 
 
@@ -42,6 +45,12 @@ def memory_vault() -> dict[str, Callable]:
 
 
 def main() -> None:
+    # Memory Depths Test Data
+    initial_powers = [50, 55, 73]
+    power_additions = [12, 16, 19, 12, 10]
+    enchantment_types = ['Earthen', 'Shocking', 'Windy']
+    items_to_enchant = ['Shield', 'Sword', 'Amulet', 'Armor']
+
     print("Testing mage counter...")
     counter_a = mage_counter()
     counter_b = mage_counter()
@@ -50,20 +59,20 @@ def main() -> None:
     print(f"counter_b call 1: {counter_b()}")
 
     print("\nTesting spell accumulator...")
-    accumulator = spell_accumulator(100)
-    print(f"Base 100, add 20: {accumulator(20)}")
-    print(f"Base 100, add 30: {accumulator(30)}")
+    accumulator = spell_accumulator(initial_powers[0])
+    print(f"Starting power: {initial_powers[0]}")
+    for addition in power_additions:
+        print(f"+ {addition} = {accumulator(addition)}")
 
     print("\nTesting enchantment factory...")
-    flaming = enchantment_factory("Flaming")
-    frozen = enchantment_factory("Frozen")
-    print(flaming("Sword"))
-    print(frozen("Shield"))
+    enchantment = enchantment_factory(enchantment_types[0])
+    for item in items_to_enchant:
+        print(f"{enchantment(item)}")
 
     print("\nTesting memory vault...")
     vault = memory_vault()
-    vault['store']('secret', '42')
     print("Store 'secret'= 42")
+    vault['store']('secret', '42')
     print(f"Recall 'secret': {vault['recall']('secret')}")
     print(f"Recall 'unknown': {vault['recall']('unknown')}")
 
