@@ -7,6 +7,7 @@ from collections.abc import Callable
 
 
 def spell_timer(func: Callable) -> Callable:
+    """Decorator that measures function execution time."""
     @wraps(func)
     def wrapper(*args, **kwargs) -> Any:
         """Wrapper docstring"""
@@ -20,6 +21,7 @@ def spell_timer(func: Callable) -> Callable:
 
 
 def power_validator(min_power: int) -> Callable:
+    """Decorator that validates power levels."""
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs) -> str:
@@ -32,6 +34,7 @@ def power_validator(min_power: int) -> Callable:
 
 
 def retry_spell(max_attempts: int) -> Callable:
+    """Decorator that retries failed spells"""
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs) -> Any:
